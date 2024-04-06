@@ -1,6 +1,7 @@
 Projet AutoScaling et IaC
 
 Download Docker Window (or the equivalent on the machine)
+
     - Pull the redis image: docker pull redis  
 
 Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
@@ -18,6 +19,7 @@ Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
     - kubectl get all   will get you all info including the % usage of the nodejs and redis replica server
 
 Prometheus and Grafana: 
+
     - Install and run a container of Prometheus: docker run --name prometheus -d -p 127.0.0.1:9090:9090 prom/prometheus 
     
     - Install and run a container of Grafana: docker run -d --name=grafana -p 3000:3000 grafana/grafana
