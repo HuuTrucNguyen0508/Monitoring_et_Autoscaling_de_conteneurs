@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truckat-redis-replica-deployment
+  labels: 
+    app: truckat-redis-replica
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: truckat-redis-replica
+  template:
+    metadata:
+      labels:
+        app: truckat-redis-replica
+    spec:
+      containers:
+        - name: truckat-redis-replica
+          image: redis:latest  
+          resources:
+            requests:
+              cpu: "200m"
+          ports:
+            - containerPort: 6379 
+          command: ["redis-server", "--slaveof", "redis", "6379", "--port", "6379"]

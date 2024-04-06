@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truckat-node-redis-deployment
+  labels:
+    app: truckat-node-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: truckat-node-redis
+  template:
+    metadata:
+      labels:
+        app: truckat-node-redis
+    spec:
+      containers:
+        - name: truckat-node-redis
+          imagePullPolicy: Always
+          image: arthurescriou/node-redis:1.0.5
+          resources:
+            requests:
+              cpu: "200m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: '8080'
+            - name: REDIS_URL
+              value: redis://truckat-redis-service.default.svc.cluster.local:6379
+            - name: REDIS_REPLICAS_URL
+              value: redis://truckat-redis-service.default.svc.cluster.local:6379
+
