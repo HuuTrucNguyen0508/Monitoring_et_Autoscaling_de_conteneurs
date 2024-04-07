@@ -62,18 +62,30 @@
 
   - 5.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
 
-## III. In Grafana, create a new datasource: setting -> connection(on the left) -> datasource
+## III. In Grafana, create a new datasource:
   
   - 1.Add new datasource
+    ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20110942.png)
     - a.Choose Prometheus datasource and in Prometheus server URL, paste:
-      
+    ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20130924.png)
+    ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20130944.png)
+
             http://host.docker.internal:9090/
 
     - b.Save and test the datasource
-        
+    ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20131025.png)
+
   - 2.Create a new dashboard:
-    - a.Go into dashboard and import an existing dashboard (use 11159 as the ID and load select the deefault Promeetheus as the datasource and import)
-    - b.You will now be able the see differents metrics pertaining to the localhost:8080, which is our nodeJS deployment    
+    - a.Go into dashboard and create a new dashbpard
+    - b.Import an existing dashboard
+    ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20131145.png)
+      - Use 11159 as the ID and load
+        ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20131156.png)
+      - Select the default Prometheus as the datasource and import
+        ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20131238.png)
+    - c.You will now be able the see differents metrics pertaining to the localhost:8080, which is our nodeJS deployment
+      ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20111011.png)
+
 
 
 
