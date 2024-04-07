@@ -57,9 +57,9 @@
         - job_name: "node-redis"
           static_configs:
             - targets: ["host.docker.internal:8080"]
-  You should have this:
+    You should have this:
   
-  ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20132459.png)
+    ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20132459.png)
 
   - 4.Save and exit the file
 
