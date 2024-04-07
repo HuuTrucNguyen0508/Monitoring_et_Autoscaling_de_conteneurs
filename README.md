@@ -34,7 +34,7 @@
 
   - Install and run a container of Prometheus and Grafana 
     
-    docker run --name prometheus -d -p 127.0.0.1:9090:9090 prom/prometheus ; docker run -d --name=grafana -p 3000:3000 grafana/grafana
+        docker run --name prometheus -d -p 127.0.0.1:9090:9090 prom/prometheus ; docker run -d --name=grafana -p 3000:3000 grafana/grafana
 
   You should be able to acess to Prometheus and Grafana through localhost:9090 and localhost:3000 (enter Grafana with admin admin as credential)
   - Get into the container of Prometheus to update the prometheus.yml: 
