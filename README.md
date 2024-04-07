@@ -1,6 +1,6 @@
 # Projet AutoScaling et IaC
 
-## A noter, la premiere partie peut être s'exécuter grâce à un script mais dans la deuxième partie, la modification du prometheus.yml doit se faire manuellement (l'installation se fait avec script)
+## PS: The first and beginning of the second part can be done through a 2 scripts but the prometheus.yml modification must be done manually
 
 ## Download Docker Window (or the equivalent on the machine)
 
