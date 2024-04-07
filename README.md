@@ -4,19 +4,34 @@
 
 ## Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
 
-    - Start your Minikube: minikube start
+  - Start your Minikube:
+  
+        minikube start
     
-    - Install the metrics addons to monitor: minikube addons enable metrics-server
+  - Install the metrics addons to monitor:
+  
+        minikube addons enable metrics-server
     
-    - Create all of your deployment and server: kubectl apply -f <file-name.yaml>
+  - Create all of your deployment and server:
+
+        kubectl apply -f <file-name.yaml>
     
-    - Expose your nodeJS and frontend with minikube tunnel (will need to keep that terminal open)
+  - Expose your nodeJS and frontend:
+
+        minikube tunnel (will need to keep that terminal open)
     
-    - You will now be able to access frontend and nodejs with localhost:7654 and localhost:8080 (Every change will be recorded in the nodejs logs, accessible with kubectl logs <nodejs-pod-name>
-    
-    - use   kubectl get all   to get all info including the % usage of the nodejs and redis replica server
+    - You will now be able to access frontend and nodejs with localhost:7654 and localhost:8080. Every change will be recorded in the nodejs logs, accessible with:
+
+          kubectl logs <nodejs-pod-name>
+
+    - to get all info including the % usage of the nodejs and redis replica server
+
+          kubectl get all
+  
+   
 
 ## Prometheus and Grafana: 
+
     - Install and run a container of Prometheus and Grafana 
     
     docker run --name prometheus -d -p 127.0.0.1:9090:9090 prom/prometheus ; docker run -d --name=grafana -p 3000:3000 grafana/grafana
