@@ -42,14 +42,17 @@
 
   - Save and exit the file then restart the container process
 
-## Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint\n   
+  - Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
 
-In Grafana, create a new datasource: setting -> connection(on the left) -> datasource
+## In Grafana, create a new datasource: setting -> connection(on the left) -> datasource
   - Add new datasource
-    - Choose Prometheus datasource and in Prometheus server URL, paste http://host.docker.internal:9090/
+    - Choose Prometheus datasource and in Prometheus server URL, paste:
+      
+            http://host.docker.internal:9090/
+
     - Save and test the datasource
         
-    - Create a new dashboard: Go into dashboard and import an existing dashboard (use 11159 as the ID and load select the deefault Promeetheus as the datasource and import)
+  - Create a new dashboard: Go into dashboard and import an existing dashboard (use 11159 as the ID and load select the deefault Promeetheus as the datasource and import)
       - You will now be able the see differents metrics pertaining to the localhost:8080, which is our nodeJS deployment    
 
 
