@@ -58,6 +58,7 @@
           static_configs:
             - targets: ["host.docker.internal:8080"]
   You should have this:
+  
   ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20132459.png)
 
   - 4.Save and exit the file
@@ -67,8 +68,10 @@
 ## III. In Grafana, create a new datasource:
   
   - 1.Add new datasource
+   
     ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20110942.png)
     - a.Choose Prometheus datasource and in Prometheus server URL, paste:
+      
     ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20130924.png)
     ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20130944.png)
 
@@ -80,12 +83,16 @@
   - 2.Create a new dashboard:
     - a.Go into dashboard and create a new dashbpard
     - b.Import an existing dashboard
+      
     ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20131145.png)
       - Use 11159 as the ID and load
+        
         ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20131156.png)
       - Select the default Prometheus as the datasource and import
+        
         ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20131238.png)
     - c.You will now be able the see differents metrics pertaining to the localhost:8080, which is our nodeJS deployment
+      
       ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20111011.png)
 
 
