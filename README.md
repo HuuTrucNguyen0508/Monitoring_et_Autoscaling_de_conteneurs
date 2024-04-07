@@ -1,5 +1,7 @@
 # Projet AutoScaling et IaC
 
+## A noter, la premiere partie peut être s'exécuter grâce à un script mais dans la deuxième partie, la modification du prometheus.yml doit se faire manuellement (l'installation se fait avec script)
+
 ## Download Docker Window (or the equivalent on the machine)
 
 ## I. Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
