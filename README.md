@@ -2,7 +2,7 @@
 
 ## Download Docker Window (or the equivalent on the machine)
 
-## I.Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
+## I. Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
 
   - 1.Start your Minikube:
   
@@ -30,7 +30,7 @@
   
    
 
-## II.Prometheus and Grafana: 
+## II. Prometheus and Grafana: 
 
   - 1.Install and run a container of Prometheus and Grafana 
     
@@ -60,7 +60,7 @@
 
   - 5.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
 
-## III.In Grafana, create a new datasource: setting -> connection(on the left) -> datasource
+## III. In Grafana, create a new datasource: setting -> connection(on the left) -> datasource
   
   - 1.Add new datasource
     - a.Choose Prometheus datasource and in Prometheus server URL, paste:
