@@ -58,7 +58,7 @@
           static_configs:
             - targets: ["host.docker.internal:8080"]
 
-  - 4.Save and exit the file then restart the container process
+  - 4.Save and exit the file
 
   - 5.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
 
