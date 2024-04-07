@@ -14,11 +14,11 @@
     
   - Create all of your deployment and server:
 
-        kubectl apply -f <file-name.yaml>
+        kubectl apply -f Trucat-project.yaml
     
   - Expose your nodeJS and frontend:
 
-        minikube tunnel (will need to keep that terminal open)
+        minikube tunnel 
     
     - You will now be able to access frontend and nodejs with localhost:7654 and localhost:8080. Every change will be recorded in the nodejs logs, accessible with:
 
