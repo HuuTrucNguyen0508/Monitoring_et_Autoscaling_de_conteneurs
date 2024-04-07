@@ -1,0 +1,198 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truckat-redis-deployment
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: truckat-redis-service
+spec:
+  selector:
+    app: redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truckat-node-redis-deployment
+  labels:
+    app: truckat-node-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: truckat-node-redis
+  template:
+    metadata:
+      labels:
+        app: truckat-node-redis
+    spec:
+      containers:
+        - name: truckat-node-redis
+          imagePullPolicy: Always
+          image: arthurescriou/node-redis:1.0.5
+          resources:
+            requests:
+              cpu: "200m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: '8080'
+            - name: REDIS_URL
+              value: redis://truckat-redis-service.default.svc.cluster.local:6379
+            - name: REDIS_REPLICAS_URL
+              value: redis://truckat-redis-service.default.svc.cluster.local:6379
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: truckat-node-redis-service
+spec:
+  selector:
+    app: truckat-node-redis
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truckat-frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: 21310174/truckat_img:1.0.6
+          ports:
+            - containerPort: 7654
+
+---
+
+# frontend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: truckat-frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 7654
+    targetPort: 7654
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truckat-redis-replica-deployment
+  labels: 
+    app: truckat-redis-replica
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: truckat-redis-replica
+  template:
+    metadata:
+      labels:
+        app: truckat-redis-replica
+    spec:
+      containers:
+        - name: truckat-redis-replica
+          image: redis:latest  
+          resources:
+            requests:
+              cpu: "200m"
+          ports:
+            - containerPort: 6379 
+          command: ["redis-server", "--slaveof", "redis", "6379", "--port", "6379"]
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: truckat-redis-replica-service
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: truckat-redis-replica
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: truckat-node-redis-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: truckat-node-redis-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: truckat-redis-replica-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: truckat-redis-replica-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
