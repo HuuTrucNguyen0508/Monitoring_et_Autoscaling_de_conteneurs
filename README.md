@@ -20,7 +20,7 @@
 
         minikube tunnel 
     
-    - You will now be able to access frontend and nodejs with localhost:7654 and localhost:8080. Every change will be recorded in the nodejs logs, accessible with:
+    - After a bit of waiting (so that the containers can pull the image start properly), you will now be able to access frontend and nodejs with localhost:7654 and localhost:8080. Every change will be recorded in the nodejs logs, accessible with:
 
           kubectl logs <nodejs-pod-name>
 
