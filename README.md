@@ -2,46 +2,47 @@
 
 ## Download Docker Window (or the equivalent on the machine)
 
-## Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
+## I.Kubernetes: Install your prefered Kubernetes environment (MiniKube in my case)
 
-  - Start your Minikube:
+  - 1.Start your Minikube:
   
         minikube start
     
-  - Install the metrics addons to monitor:
+  - 2.Install the metrics addons to monitor:
   
         minikube addons enable metrics-server
     
-  - Create all of your deployment and server:
+  - 3.Create all of your deployment and server:
 
         kubectl apply -f Trucat-project.yaml
     
-  - Expose your nodeJS and frontend:
+  - 4.Expose your nodeJS and frontend:
 
         minikube tunnel 
     
-    - After a bit of waiting (so that the containers can pull the image start properly), you will now be able to access frontend and nodejs with localhost:7654 and localhost:8080. Every change will be recorded in the nodejs logs, accessible with:
+    - 5.After a bit of waiting (so that the containers can pull the image start properly), you will now be able to access frontend and nodejs with localhost:7654 and localhost:8080. Every change will be recorded in the nodejs logs, accessible with:
 
           kubectl logs <nodejs-pod-name>
 
-    - to get all info including the % usage of the nodejs and redis replica server
+    - 6.To get all info including the % usage of the nodejs and redis replica server
 
           kubectl get all
   
    
 
-## Prometheus and Grafana: 
+## II.Prometheus and Grafana: 
 
-  - Install and run a container of Prometheus and Grafana 
+  - 1.Install and run a container of Prometheus and Grafana 
     
         docker run --name prometheus -d -p 127.0.0.1:9090:9090 prom/prometheus ; docker run -d --name=grafana -p 3000:3000 grafana/grafana
 
-  You should be able to acess to Prometheus and Grafana through localhost:9090 and localhost:3000 (enter Grafana with admin admin as credential)
-  - Get into the container of Prometheus to update the prometheus.yml: 
+      You should be able to acess to Prometheus and Grafana through localhost:9090 and localhost:3000 (enter Grafana with admin admin as credential)
+  
+  - 2.Get into the container of Prometheus to update the prometheus.yml: 
     
         docker exec -it prometheus /bin/sh -c 'cd /etc/prometheus && vi prometheus.yml && kill -HUP 1' 
         
-  - Once inside the prometheus.yml, copy the content and paste at the end to the prometheus.yml (following the same indentation as the one that is already there)
+  - 3.Once inside the prometheus.yml, copy the content and paste at the end to the prometheus.yml (following the same indentation as the one that is already there)
 
         - job_name: "WMI Exporter"
           static_configs:
@@ -55,20 +56,22 @@
           static_configs:
             - targets: ["host.docker.internal:8080"]
 
-  - Save and exit the file then restart the container process
+  - 4.Save and exit the file then restart the container process
 
-  - Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
+  - 5.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
 
-## In Grafana, create a new datasource: setting -> connection(on the left) -> datasource
-  - Add new datasource
-    - Choose Prometheus datasource and in Prometheus server URL, paste:
+## III.In Grafana, create a new datasource: setting -> connection(on the left) -> datasource
+  
+  - 1.Add new datasource
+    - a.Choose Prometheus datasource and in Prometheus server URL, paste:
       
             http://host.docker.internal:9090/
 
-    - Save and test the datasource
+    - b.Save and test the datasource
         
-  - Create a new dashboard: Go into dashboard and import an existing dashboard (use 11159 as the ID and load select the deefault Promeetheus as the datasource and import)
-      - You will now be able the see differents metrics pertaining to the localhost:8080, which is our nodeJS deployment    
+  - 2.Create a new dashboard:
+    - a.Go into dashboard and import an existing dashboard (use 11159 as the ID and load select the deefault Promeetheus as the datasource and import)
+    - b.You will now be able the see differents metrics pertaining to the localhost:8080, which is our nodeJS deployment    
 
 
 
