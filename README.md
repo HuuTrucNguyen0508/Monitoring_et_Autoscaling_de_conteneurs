@@ -2,7 +2,7 @@
 
 ## PS: The first and beginning of the second part can be done through 2 scripts but the prometheus.yml modification must be done manually
 
-## Project Architecture:
+## Project Architecture :
 ![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/Capture%20d%E2%80%99%C3%A9cran%20du%202024-11-07%2013-25-04.png)
 
 ## Download Docker Window (or the equivalent on the machine)
