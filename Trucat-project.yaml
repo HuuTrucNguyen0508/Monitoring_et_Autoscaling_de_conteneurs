@@ -19,6 +19,13 @@ spec:
           image: redis:latest
           ports:
             - containerPort: 6379
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
 
 
 ---
@@ -61,6 +68,10 @@ spec:
           resources:
             requests:
               cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
           ports:
             - containerPort: 8080
           env:
@@ -148,6 +159,10 @@ spec:
           resources:
             requests:
               cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           ports:
             - containerPort: 6379 
           command: ["redis-server", "--slaveof", "redis", "6379", "--port", "6379"]
