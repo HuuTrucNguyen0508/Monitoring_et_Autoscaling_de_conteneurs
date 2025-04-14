@@ -12,11 +12,11 @@
         ./install_Helm_and_Docker_Desktop.sh
     
   - 2.Go into the setting and enable the Kubernetes option for Docker Desktop:
-  - 
+    
 ![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/K8s.png)
 
   - 3.And into the docker engine option, paste the following ip address:
-  - 
+    
 ![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/Docker%20metrics.png)  
 
   - 4.After the cluster is enabled, just run the script and everything will be setup automatically 
