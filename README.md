@@ -26,8 +26,8 @@
       You should be able to acess to Prometheus and Grafana through localhost:9090 and localhost:3000 (enter Grafana with admin prom-operator as credential).
 
   - 5.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint and in Kubernetes, all of the pods, deployment and service running.
-  - 
-![image](https://github.com/user-attachments/assets/117df1ce-38fc-48cd-ab20-539043d3dc79](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/PromTarget.png)
+
+![Alt Text]([[https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/PromTarget.png](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-monitoring.png)](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-default.png))  
 
 ![image](https://github.com/user-attachments/assets/a1f8bbd6-46b0-48eb-adb2-fd7ac903b9c8)](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-monitoring.png)
 
