@@ -12,14 +12,18 @@
         ./install_Helm_and_Docker_Desktop.sh
     
   - 2.Go into the setting and enable the Kubernetes option for Docker Desktop:
+![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/K8s.png)
 
-  - 3.After the cluster is enabled, just run the script and everything will be setup automatically 
+  - 3.And into the docker engine option, paste the following ip address:
+![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/Docker%20metrics.png)  
+
+  - 4.After the cluster is enabled, just run the script and everything will be setup automatically 
     
         ./script.sh
 
       You should be able to acess to Prometheus and Grafana through localhost:9090 and localhost:3000 (enter Grafana with admin prom-operator as credential)
 
-  - 4.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
+  - 5.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint
 
 ## II. In Grafana, create a new dashboard:
 
