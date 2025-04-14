@@ -51,7 +51,7 @@
       
       ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20111011.png)
 
-    - d.You could add other dashboard using [the Grafana community dashboard](https://grafana.com/grafana/dashboards/). Some example such as the nodeFull or the Prom-Grafana-Kubernetes dashboard
+    - d.You could add other dashboard using [the Grafana community dashboard](https://grafana.com/grafana/dashboards/). Some example such as the Node Exporter Full or the Kubernetes/View/Global dashboards.
 
 
 
