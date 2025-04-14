@@ -27,11 +27,11 @@
 
   - 5.Now, when you get into Prometheus and look into status then target, you should see all of the wanted endpoint and in Kubernetes, all of the pods, deployment and service running.
 
-![Alt Text]([[https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/PromTarget.png](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-monitoring.png)](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-default.png))  
+![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/PromTarget.png)
 
-![image](https://github.com/user-attachments/assets/a1f8bbd6-46b0-48eb-adb2-fd7ac903b9c8)](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-monitoring.png)
+![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-monitoring.png)
 
-![image](https://github.com/user-attachments/assets/0a25ea42-266c-49ac-836a-a14ebc7165f1)](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-default.png)
+![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-default.png)
 
 
 ## II. In Grafana, create a new dashboard:
