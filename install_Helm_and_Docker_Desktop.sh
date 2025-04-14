@@ -10,6 +10,14 @@ sudo apt-get install helm
 # Install GNOME Terminal
 sudo apt install gnome-terminal
 
+#Install kubectl command line
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+chmod +x kubectl
+mkdir -p ~/.local/bin
+mv ./kubectl ~/.local/bin/kubectl
+kubectl version --client
+
 # Add Docker's official GPG key
 sudo apt-get update
 sudo apt-get install ca-certificates curl
