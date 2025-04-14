@@ -4,19 +4,22 @@ metadata:
   name: truckat-redis-deployment
   labels:
     app: redis
+    role: primary
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: redis
+      role: primary
   template:
     metadata:
       labels:
         app: redis
+        role: primary
     spec:
       containers:
         - name: redis
-          image: redis:latest
+          image: redis:7.2.4
           ports:
             - containerPort: 6379
           resources:
@@ -27,7 +30,6 @@ spec:
               cpu: "500m"
               memory: "512Mi"
 
-
 ---
 
 apiVersion: v1
@@ -37,6 +39,58 @@ metadata:
 spec:
   selector:
     app: redis
+    role: primary
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truckat-redis-replica-deployment
+  labels:
+    app: redis
+    role: replica
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redis
+      role: replica
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: replica
+    spec:
+      containers:
+        - name: redis-replica
+          image: redis:7.2.4
+          ports:
+            - containerPort: 6379
+          command: ["redis-server", "--replicaof", "truckat-redis-service", "6379", "--port", "6379"]
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: truckat-redis-replica-service
+spec:
+  selector:
+    app: redis
+    role: replica
   ports:
     - protocol: TCP
       port: 6379
@@ -63,8 +117,17 @@ spec:
     spec:
       containers:
         - name: truckat-node-redis
-          imagePullPolicy: Always
           image: arthurescriou/node-redis:1.0.5
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: REDIS_URL
+              value: redis://truckat-redis-service.default.svc.cluster.local:6379
+            - name: REDIS_REPLICAS_URL
+              value: redis://truckat-redis-service.default.svc.cluster.local:6379
           resources:
             requests:
               cpu: "200m"
@@ -72,15 +135,6 @@ spec:
             limits:
               cpu: "1000m"
               memory: "512Mi"
-          ports:
-            - containerPort: 8080
-          env:
-            - name: PORT
-              value: '8080'
-            - name: REDIS_URL
-              value: redis://truckat-redis-service.default.svc.cluster.local:6379
-            - name: REDIS_REPLICAS_URL
-              value: redis://truckat-redis-service.default.svc.cluster.local:6379
 
 ---
 
@@ -103,6 +157,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: truckat-frontend-deployment
+  labels:
+    app: frontend
 spec:
   replicas: 1
   selector:
@@ -118,10 +174,12 @@ spec:
           image: 21310174/truckat_img:1.0.6
           ports:
             - containerPort: 7654
+          env:
+            - name: BACKEND_URL
+              value: http://truckat-node-redis-service:8080
 
 ---
 
-# frontend-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -130,61 +188,14 @@ spec:
   selector:
     app: frontend
   ports:
-  - protocol: TCP
-    port: 7654
-    targetPort: 7654
+    - protocol: TCP
+      port: 7654
+      targetPort: 7654
   type: LoadBalancer
 
 ---
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: truckat-redis-replica-deployment
-  labels: 
-    app: truckat-redis-replica
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: truckat-redis-replica
-  template:
-    metadata:
-      labels:
-        app: truckat-redis-replica
-    spec:
-      containers:
-        - name: truckat-redis-replica
-          image: redis:latest  
-          resources:
-            requests:
-              cpu: "200m"
-              memory: "256Mi"
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
-          ports:
-            - containerPort: 6379 
-          command: ["redis-server", "--slaveof", "redis", "6379", "--port", "6379"]
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: truckat-redis-replica-service
-spec:
-  type: ClusterIP
-  ports:
-    - protocol: TCP
-      port: 6379
-      targetPort: 6379
-  selector:
-    app: truckat-redis-replica
-
----
-
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: truckat-node-redis-autoscaler
@@ -195,11 +206,17 @@ spec:
     name: truckat-node-redis-deployment
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
 
 ---
 
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: truckat-redis-replica-hpa
@@ -210,4 +227,11 @@ spec:
     name: truckat-redis-replica-deployment
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+

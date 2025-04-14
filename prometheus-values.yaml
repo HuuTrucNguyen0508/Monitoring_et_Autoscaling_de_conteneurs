@@ -1,0 +1,19 @@
+prometheus-node-exporter:
+  hostRootFsMount:
+    enabled: false
+
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+        - job_name: 'kube-state-metrics'
+          static_configs:
+            - targets: ['kube-prom-kube-state-metrics.monitoring.svc.cluster.local:8080']
+        - job_name: 'cadvisor'
+          static_configs:
+            - targets: ['host.docker.internal:8081']
+        - job_name: docker
+          static_configs:
+            - targets: ['host.docker.internal:9323']
+        - job_name: 'redis'
+          static_configs:
+            - targets: ['redi-prom-prometheus-redis-exporter.monitoring.svc.cluster.local:9121']
