@@ -33,6 +33,9 @@
 
 ![Alt Text](https://github.com/HuuTrucNguyen0508/Monitoring_et_Autoscaling_de_conteneurs/blob/main/PNG/k-get-all-default.png)
 
+  - 6.The project can be cleaned up using a script:
+    
+        ./clean.sh
 
 ## II. In Grafana, create a new dashboard:
 
@@ -52,6 +55,7 @@
       ![Alt Text](https://github.com/HuuTrucNguyen0508/Rendu_Projet_M1_Reseau_Huu_Truc_NGUYEN_21310174/blob/main/PNG/Screenshot%202024-04-07%20111011.png)
 
     - d.You could add other dashboard using [the Grafana community dashboard](https://grafana.com/grafana/dashboards/). Some example such as the Node Exporter Full or the Kubernetes/View/Global dashboards.
+  
 
 
 
