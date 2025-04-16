@@ -43,6 +43,13 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/down
 # Creating the monitoring namespace
 kubectl create namespace monitoring
 
+# Add Helm repos if not already added
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
+helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics || true
+
+# Update repos
+helm repo update
+
 # Installing the helm prometheus chart and applying the job
 helm install redi-prom prometheus-community/prometheus-redis-exporter -n monitoring
 helm install kube-prom prometheus-community/kube-prometheus-stack -f prometheus-values.yaml -n monitoring
