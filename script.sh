@@ -43,6 +43,9 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/down
 # Creating the monitoring namespace
 kubectl create namespace monitoring
 
+#Apply redis exporter
+kubectl apply -f redis-exporter.yaml -n monitoring
+
 # Add Helm repos if not already added
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
 helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics || true
@@ -51,9 +54,13 @@ helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics
 helm repo update
 
 # Installing the helm prometheus chart and applying the job
-helm install redi-prom prometheus-community/prometheus-redis-exporter -n monitoring
 helm install kube-prom prometheus-community/kube-prometheus-stack -f prometheus-values.yaml -n monitoring
 
+# Wait for all pods in the monitoring namespace to be ready
+echo "Waiting for all pods in the monitoring namespace to be ready..."
+kubectl wait --for=condition=ready pod --all --namespace=monitoring --timeout=600s
+
+# Once pods are ready, set up port forwarding
 kubectl port-forward svc/kube-prom-kube-prometheus-prometheus 9090:9090 -n monitoring &
 kubectl port-forward svc/kube-prom-grafana 3000:80 -n monitoring &
 

@@ -19,8 +19,8 @@ docker stop cadvisor
 docker rm cadvisor
 
 helm uninstall kube-prom -n monitoring
-helm uninstall redi-prom -n monitoring
 
+kubectl delete -f redis-exporter.yaml -n monitoring
 kubectl delete namespace monitoring
 kubectl delete -f Trucat-project.yaml
 

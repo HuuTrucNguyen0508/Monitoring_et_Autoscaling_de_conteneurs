@@ -16,4 +16,9 @@ prometheus:
             - targets: ['host.docker.internal:9323']
         - job_name: 'redis'
           static_configs:
-            - targets: ['redi-prom-prometheus-redis-exporter.monitoring.svc.cluster.local:9121']
+            - targets: ['redis-exporter-service.monitoring.svc.cluster.local:9121']
+        - job_name: 'node-redis'
+          static_configs:
+            - targets: ['truckat-node-redis-service.default.svc.cluster.local:8080']
+
+        
