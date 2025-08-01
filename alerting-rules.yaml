@@ -1,0 +1,100 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: truckat-alerts
+  namespace: monitoring
+  labels:
+    prometheus: kube-prom
+    role: alert-rules
+spec:
+  groups:
+  - name: truckat.rules
+    rules:
+    - alert: HighCPUUsage
+      expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High CPU usage detected"
+        description: "CPU usage is above 80% for more than 5 minutes"
+
+    - alert: HighMemoryUsage
+      expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High memory usage detected"
+        description: "Memory usage is above 85% for more than 5 minutes"
+
+    - alert: PodRestartingFrequently
+      expr: increase(kube_pod_container_status_restarts_total[1h]) > 5
+      labels:
+        severity: warning
+      annotations:
+        summary: "Pod is restarting frequently"
+        description: "Pod {{ $labels.pod }} has restarted {{ $value }} times in the last hour"
+
+    - alert: RedisDown
+      expr: redis_up == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Redis instance is down"
+        description: "Redis instance {{ $labels.instance }} is not responding"
+
+    - alert: RedisMemoryHigh
+      expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 80
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Redis memory usage is high"
+        description: "Redis memory usage is above 80%"
+
+    - alert: ApplicationDown
+      expr: up{job="node-redis"} == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Application is down"
+        description: "The Node.js application is not responding"
+
+    - alert: HighResponseTime
+      expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High response time detected"
+        description: "95th percentile response time is above 2 seconds"
+
+    - alert: DiskSpaceLow
+      expr: (node_filesystem_avail_bytes{mountpoint="/"} * 100) / node_filesystem_size_bytes{mountpoint="/"} < 10
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Low disk space"
+        description: "Disk space is below 10%"
+
+    - alert: KubernetesNodeDown
+      expr: up{job="kubernetes-nodes"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Kubernetes node is down"
+        description: "Node {{ $labels.instance }} has been down for more than 5 minutes"
+
+    - alert: HPAReachedMaxReplicas
+      expr: kube_horizontalpodautoscaler_status_current_replicas / kube_horizontalpodautoscaler_spec_max_replicas > 0.9
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "HPA near maximum replicas"
+        description: "HPA {{ $labels.horizontalpodautoscaler }} is using more than 90% of its maximum replicas" 

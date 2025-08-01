@@ -4,21 +4,87 @@ prometheus-node-exporter:
 
 prometheus:
   prometheusSpec:
+    retention: 15d
+    retentionSize: 10GB
+    storageSpec:
+      emptyDir: {}
     additionalScrapeConfigs:
         - job_name: 'kube-state-metrics'
           static_configs:
             - targets: ['kube-prom-kube-state-metrics.monitoring.svc.cluster.local:8080']
+          scrape_interval: 15s
         - job_name: 'cadvisor'
           static_configs:
             - targets: ['host.docker.internal:8081']
+          scrape_interval: 15s
         - job_name: docker
           static_configs:
             - targets: ['host.docker.internal:9323']
+          scrape_interval: 15s
         - job_name: 'redis'
           static_configs:
             - targets: ['redis-exporter-service.monitoring.svc.cluster.local:9121']
+          scrape_interval: 10s
         - job_name: 'node-redis'
           static_configs:
             - targets: ['truckat-node-redis-service.default.svc.cluster.local:8080']
+          scrape_interval: 10s
+          metrics_path: /metrics
+        - job_name: 'kubernetes-pods'
+          kubernetes_sd_configs:
+          - role: pod
+          relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: kubernetes_pod_name
+
+grafana:
+  adminPassword: prom-operator
+  persistence:
+    enabled: true
+    size: 5Gi
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+  dashboards:
+    default:
+      kubernetes-cluster:
+        gnetId: 7249
+        revision: 1
+        datasource: Prometheus
+      node-exporter:
+        gnetId: 1860
+        revision: 22
+        datasource: Prometheus
+      redis-dashboard:
+        gnetId: 763
+        revision: 1
+        datasource: Prometheus
 
         
